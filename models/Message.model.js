@@ -10,6 +10,10 @@ const messageSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  product: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+  },
 });
 
 const Message = model("Message", messageSchema);
