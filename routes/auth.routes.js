@@ -36,14 +36,13 @@ router.post("/signup", async (req, res, next) => {
 });
 
 router.post("/login", async (req, res, next) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res
-      .status(400)
-      .json({ message: "Please provide username and password" });
-  }
-
   try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ message: "Please provide username and password" });
+    }
     const foundUser = await User.findOne({ username }).select("password");
     if (!foundUser) {
       return res.status(401).json({ message: "Wrong credentials" });
@@ -56,7 +55,6 @@ router.post("/login", async (req, res, next) => {
     if (!matchingPasswords) {
       return res.status(401).json({ message: "Wrong credentials" });
     }
-
     const token = jsonWebToken.sign(
       { id: foundUser._id },
       process.env.TOKEN_SECRET,
@@ -72,6 +70,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.get("/user", isAuth, async (req, res, next) => {
+  console.log(req.status);
   res.json(req.user);
 });
 
