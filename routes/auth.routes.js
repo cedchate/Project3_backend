@@ -71,7 +71,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/user", isAuth, async (req, res, next) => {
+router.get("/getuser", isAuth, async (req, res, next) => {
   res.json(req.user);
 });
 
