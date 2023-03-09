@@ -1,6 +1,8 @@
 const Product = require("../models/Product.model");
 const router = require("express").Router();
 
+// /api/products
+
 router.get("/", async (req, res, next) => {
   try {
     const allProduct = await Product.find();

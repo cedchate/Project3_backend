@@ -8,11 +8,10 @@ async function isAuth(req, res, next) {
       return res.status(500).json({ message: "No Token found." });
     }
     token = token.replace("Bearer ", "");
-    console.log(token);
+    // console.log(token);
 
     const payload = jsonWebToken.verify(token, process.env.TOKEN_SECRET);
     const user = await User.findById(payload.id);
-    // console.log(user);
     req.user = user;
 
     // Everything went well go to the next route

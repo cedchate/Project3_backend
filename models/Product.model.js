@@ -2,8 +2,11 @@ const { Schema, model } = require("mongoose");
 
 const productSchema = new Schema({
   name: String,
-  price: Number,
-  Category: {
+  price: {
+    type: Number,
+    min: 0,
+  },
+  category: {
     type: String,
     enum: ["bike", "equipment", "other"],
   },
