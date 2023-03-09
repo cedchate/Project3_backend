@@ -1,11 +1,22 @@
 const Product = require("../models/Product.model");
 const router = require("express").Router();
+const isAuth = require("./../middlewares/isAuth");
 
 // /api/products
 
 router.get("/", async (req, res, next) => {
   try {
     const allProduct = await Product.find();
+    res.status(200).json(allProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/user", isAuth, async (req, res, next) => {
+  try {
+    const allProduct = await Product.find({ seller: req.user._id });
+    console.log(allProduct);
     res.status(200).json(allProduct);
   } catch (error) {
     next(error);
@@ -21,9 +32,11 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuth, async (req, res, next) => {
   try {
-    const newProduct = { ...req.body };
+    // console.log(req.user._id);
+    const newProduct = { ...req.body, seller: req.user._id };
+    // console.log(newProduct);
     await Product.create(newProduct);
     res.sendStatus(201);
   } catch (error) {
