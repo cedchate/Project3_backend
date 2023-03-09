@@ -68,10 +68,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
- 
 router.get("/user", isAuth, async (req, res, next) => {
-  console.log(req.status);
-
   res.json(req.user);
 });
 
