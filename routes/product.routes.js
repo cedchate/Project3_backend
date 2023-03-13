@@ -13,10 +13,12 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/user", isAuth, async (req, res, next) => {
+router.get("/user/:userId", isAuth, async (req, res, next) => {
   try {
-    const allProduct = await Product.find({ seller: req.user._id });
-    console.log(allProduct);
+    const allProduct = await Product.find({
+      seller: req.params.userId,
+    }).populate("seller");
+    // console.log(allProduct);
     res.status(200).json(allProduct);
   } catch (error) {
     next(error);
@@ -25,7 +27,7 @@ router.get("/user", isAuth, async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate("seller");
     res.status(200).json(product);
   } catch (error) {
     next(error);
