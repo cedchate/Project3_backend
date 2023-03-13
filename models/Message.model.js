@@ -2,17 +2,23 @@ const { Schema, model } = require("mongoose");
 
 const messageSchema = new Schema({
   content: String,
-  seller: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
-  buyer: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
   product: {
     type: Schema.Types.ObjectId,
     ref: "Product",
+  },
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  sendBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  sendTo: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 
