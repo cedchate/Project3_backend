@@ -5,9 +5,16 @@ const isAuth = require("./../middlewares/isAuth");
 // /api/products
 
 router.get("/", async (req, res, next) => {
+  const query = {
+    category: req.query.category,
+  };
+
+  if (!req.query.category) {
+    delete query.category;
+  }
   try {
-    const allProduct = await Product.find();
-    res.status(200).json(allProduct);
+    const Products = await Product.find(query);
+    res.json(Products);
   } catch (error) {
     next(error);
   }
@@ -45,6 +52,9 @@ router.post("/", isAuth, async (req, res, next) => {
     next(error);
   }
 });
+// get one product
+
+router.get("/", async (req, res, next) => {});
 
 router.patch("/:id", async (req, res, next) => {
   try {
