@@ -6,9 +6,16 @@ const fileUpload = require("../config/cloudinary.config");
 // /api/products
 
 router.get("/", async (req, res, next) => {
+  const query = {
+    category: req.query.category,
+  };
+
+  if (!req.query.category) {
+    delete query.category;
+  }
   try {
-    const allProduct = await Product.find();
-    res.status(200).json(allProduct);
+    const Products = await Product.find(query);
+    res.json(Products);
   } catch (error) {
     next(error);
   }
@@ -55,7 +62,9 @@ router.post(
       next(error);
     }
   }
+
 );
+
 
 router.patch("/:id", async (req, res, next) => {
   try {
