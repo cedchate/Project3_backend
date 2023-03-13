@@ -48,12 +48,14 @@ router.post(
   fileUpload.single("picture"),
   async (req, res, next) => {
     try {
-      // console.log(req.file);
-      // console.log(req.body);
+      let file = "";
+      if (req.file) {
+        file = req.file.path;
+      }
       const newProduct = {
         ...req.body,
         seller: req.user._id,
-        picture: req.file.path,
+        picture: file,
       };
       // console.log(newProduct);
       await Product.create(newProduct);
@@ -62,19 +64,26 @@ router.post(
       next(error);
     }
   }
-
 );
 
-
-router.patch("/:id", async (req, res, next) => {
-  try {
-    const newProduct = { ...req.body };
-    await Product.findByIdAndUpdate(req.params.id, newProduct);
-    res.sendStatus(200);
-  } catch (error) {
-    next(error);
+router.patch(
+  "/:id",
+  isAuth,
+  fileUpload.single("picture"),
+  async (req, res, next) => {
+    try {
+      const newProduct = {
+        ...req.body,
+        seller: req.user._id,
+        picture: req.file?.path,
+      };
+      await Product.findByIdAndUpdate(req.params.id, newProduct);
+      res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.delete("/:id", async (req, res, next) => {
   try {
