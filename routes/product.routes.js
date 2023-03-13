@@ -21,11 +21,17 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/user/:userId", isAuth, async (req, res, next) => {
+router.get("/user/:userId", async (req, res, next) => {
   try {
-    const allProduct = await Product.find({
+    const query = {
+      category: req.query.category,
       seller: req.params.userId,
-    }).populate("seller");
+    };
+    if (!req.query.category) {
+      delete query.category;
+    }
+    console.log(query);
+    const allProduct = await Product.find(query).populate("seller");
     // console.log(allProduct);
     res.status(200).json(allProduct);
   } catch (error) {
