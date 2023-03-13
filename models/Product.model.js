@@ -6,6 +6,10 @@ const productSchema = new Schema({
     type: Number,
     min: 0,
   },
+  picture: {
+    type: String,
+    default: "",
+  },
   category: {
     type: String,
     enum: ["bike", "equipment", "other"],

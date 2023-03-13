@@ -1,6 +1,7 @@
 const Product = require("../models/Product.model");
 const router = require("express").Router();
 const isAuth = require("./../middlewares/isAuth");
+const fileUpload = require("../config/cloudinary.config");
 
 // /api/products
 
@@ -41,20 +42,29 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", isAuth, async (req, res, next) => {
-  try {
-    // console.log(req.user._id);
-    const newProduct = { ...req.body, seller: req.user._id };
-    // console.log(newProduct);
-    await Product.create(newProduct);
-    res.sendStatus(201);
-  } catch (error) {
-    next(error);
+router.post(
+  "/",
+  isAuth,
+  fileUpload.single("picture"),
+  async (req, res, next) => {
+    try {
+      // console.log(req.file);
+      // console.log(req.body);
+      const newProduct = {
+        ...req.body,
+        seller: req.user._id,
+        picture: req.file.path,
+      };
+      // console.log(newProduct);
+      await Product.create(newProduct);
+      res.sendStatus(201);
+    } catch (error) {
+      next(error);
+    }
   }
-});
-// get one product
 
-router.get("/", async (req, res, next) => {});
+);
+
 
 router.patch("/:id", async (req, res, next) => {
   try {
