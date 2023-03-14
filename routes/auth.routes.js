@@ -73,6 +73,15 @@ router.get("/user", isAuth, async (req, res, next) => {
   res.json(req.user);
 });
 
+router.get("/user/:id", async (req, res, next) => {
+  try {
+    const seller = await User.findById(req.params.id);
+    res.status(200).json(seller);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch(
   "/user",
   fileUpload.single("image"),
