@@ -30,7 +30,7 @@ router.get("/user/:userId", async (req, res, next) => {
     if (!req.query.category) {
       delete query.category;
     }
-    console.log(query);
+    // console.log(query);
     const allProduct = await Product.find(query).populate("seller");
     // console.log(allProduct);
     res.status(200).json(allProduct);
@@ -54,14 +54,10 @@ router.post(
   fileUpload.single("picture"),
   async (req, res, next) => {
     try {
-      let file = "";
-      if (req.file) {
-        file = req.file.path;
-      }
       const newProduct = {
         ...req.body,
         seller: req.user._id,
-        picture: file,
+        picture: req.file?.path,
       };
       // console.log(newProduct);
       await Product.create(newProduct);

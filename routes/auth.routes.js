@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jsonWebToken = require("jsonwebtoken");
 const isAuth = require("../middlewares/isAuth.js");
 const User = require("./../models/User.model.js");
+const fileUpload = require("../config/cloudinary.config");
 
 router.post("/signup", async (req, res, next) => {
   const { username, password } = req.body;
@@ -72,4 +73,22 @@ router.get("/user", isAuth, async (req, res, next) => {
   res.json(req.user);
 });
 
+router.patch(
+  "/user",
+  fileUpload.single("image"),
+  isAuth,
+  async (req, res, next) => {
+    try {
+      const newUser = {
+        image: req.file?.path,
+        username: req.body.username,
+      };
+      console.log(newUser);
+      await User.findByIdAndUpdate(req.user._id, newUser);
+      res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 module.exports = router;

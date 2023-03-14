@@ -8,7 +8,8 @@ const productSchema = new Schema({
   },
   picture: {
     type: String,
-    default: "",
+    default:
+      "https://res.cloudinary.com/diwb7ixo1/image/upload/v1678786905/Project3/t1vh3hhueo8zifqawqw2.jpg",
   },
   category: {
     type: String,
