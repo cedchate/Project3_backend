@@ -13,6 +13,11 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
+    image: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/diwb7ixo1/image/upload/v1678718285/Project3/bgq8pzippbwxhl4i2xcv.jpg",
+    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
