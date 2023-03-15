@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const Message = require("../models/Message.model");
-const Product = require("../models/Product.model");
 const isAuth = require("../middlewares/isAuth");
 
 router.get("/", isAuth, async (req, res, next) => {

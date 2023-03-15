@@ -30,7 +30,6 @@ router.post("/signup", async (req, res, next) => {
     });
     return res.status(201).json({ message: "The user was created." });
   } catch (error) {
-    // next(error)
     return res.status(500).json({ message: "Something went wrong", error });
   }
 });
