@@ -31,7 +31,7 @@ router.get("/product/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuth, async (req, res, next) => {
   try {
     const newMessage = await Message.create(req.body);
     res.sendStatus(201);
