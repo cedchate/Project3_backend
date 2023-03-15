@@ -30,9 +30,7 @@ router.get("/user/:userId", async (req, res, next) => {
     if (!req.query.category) {
       delete query.category;
     }
-    // console.log(query);
     const allProduct = await Product.find(query).populate("seller");
-    // console.log(allProduct);
     res.status(200).json(allProduct);
   } catch (error) {
     next(error);
@@ -59,7 +57,6 @@ router.post(
         seller: req.user._id,
         picture: req.file?.path,
       };
-      // console.log(newProduct);
       await Product.create(newProduct);
       res.sendStatus(201);
     } catch (error) {
