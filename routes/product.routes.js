@@ -84,7 +84,7 @@ router.patch(
   }
 );
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuth, async (req, res, next) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
     res.sendStatus(200);
