@@ -4,7 +4,7 @@ const isAuth = require("../middlewares/isAuth");
 
 router.get("/", isAuth, async (req, res, next) => {
   try {
-    const allMessages = await Message.find({ users: req.user.id })
+    const allMessages = await Message.find({ users: req.user._id })
       .populate("product")
       .populate("sendBy")
       .populate("sendTo");
@@ -23,7 +23,7 @@ router.get("/product/:id", isAuth, async (req, res, next) => {
   try {
     const messages = await Message.find({
       product: req.params.id,
-      users: req.user.id,
+      users: req.user._id,
     })
       .populate("product")
       .populate("sendBy")
